@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-: ${KERNEL_URL:="https://github.com/yasker/linux/archive/v4.2.8-ckt3-yasker-rc1.tar.gz"}
-: ${KERNEL_SHA1:="074f2b5597835e138c2d1193729afcb60d93bba7"}
+: ${KERNEL_URL:="https://github.com/yasker/linux/archive/v4.2.8-ckt3-yasker-rc2.tar.gz"}
+: ${KERNEL_SHA1:="5bf67fa9e424d198a6f417c019e25197800bd7b9"}
 : ${ARTIFACTS:=$(pwd)/assets}
 : ${BUILD:=/usr/src}
 : ${CONFIG:=$(pwd)/config}
