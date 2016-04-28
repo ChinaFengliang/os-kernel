@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 cd $(dirname $0)/..
 
@@ -14,15 +14,24 @@ FIRMWARE=$(readlink -f scripts/firmware)
 
 cd ${BUILD}/${DIR}
 
+[ "$ARCH" = "amd64" ] && export ARCH=x86
+[ "$ARCH" = "arm64" ] && export CROSS_COMPILE="aarch64-linux-gnu-" PATH=$(echo /opt/gcc-linaro-*)/bin:$PATH
+
 # TODO update config/kernel-config for the latest kernel
 make oldconfig
 make -j$(nproc) tar-pkg
 
 create_firmware_tar $FIRMWARE
 
+mkdir -p ./tmp/boot
+find . -name '*.dtb' | xargs -I{} cp {} ./tmp/boot/
+tar -cf ./tmp/dtbs.tar -C ./tmp boot
+rm -rf ./tmp/boot
+
 mkdir -p ${DIST}/kernel
 
 FILE=$(echo linux*.tar)
 tar --concatenate --file=${FILE} firmware.tar
+tar --concatenate --file=${FILE} ./tmp/dtbs.tar
 cat $FILE | gzip -c > ${DIST}/kernel/${FILE}.gz
 list_build_files | tar -czf ${DIST}/kernel/build.tar.gz -T /dev/stdin

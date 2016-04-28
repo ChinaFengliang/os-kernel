@@ -1,7 +1,11 @@
 FROM ubuntu:16.04
 
 RUN apt-get update && \
-    apt-get install -y build-essential wget libncurses5-dev unzip bc curl python rsync ccache git vim libssl-dev
+    apt-get install -y build-essential wget libncurses5-dev unzip bc curl python rsync ccache git vim libssl-dev gcc-aarch64-linux-gnu
+
+ENV TERM xterm
+ENV LINARO_GCC_URL https://releases.linaro.org/components/toolchain/binaries/latest-5/aarch64-linux-gnu/gcc-linaro-5.3-2016.02-x86_64_aarch64-linux-gnu.tar.xz
+RUN cd /root && wget -O - $LINARO_GCC_URL | tar -xJf - -C /opt
 
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
