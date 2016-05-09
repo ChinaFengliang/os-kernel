@@ -15,10 +15,11 @@ FIRMWARE=$(readlink -f scripts/firmware)
 cd ${BUILD}/${DIR}
 
 [ "$ARCH" = "amd64" ] && export ARCH=x86
-[ "$ARCH" = "arm64" ] && export CROSS_COMPILE="aarch64-linux-gnu-" PATH=$(echo /opt/gcc-linaro-*)/bin:$PATH
+[ "$ARCH" = "arm64" ] && export CROSS_COMPILE="aarch64-linux-gnu-" # TODO remove: no need to use linaro # PATH=$(echo /opt/gcc-linaro-*)/bin:$PATH
 
 # TODO update config/kernel-config for the latest kernel
 make oldconfig
+sed -i -e 's!# Create the tarball!cp -v -- "${objtree}/arch/arm64/boot/Image" "${tmpdir}/boot/vmlinux-${KERNELRELEASE}"!' ./scripts/package/buildtar
 make -j$(nproc) tar-pkg
 
 create_firmware_tar $FIRMWARE
