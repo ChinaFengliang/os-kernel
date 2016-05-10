@@ -15,7 +15,7 @@ FIRMWARE=$(readlink -f scripts/firmware)
 cd ${BUILD}/${DIR}
 
 [ "$ARCH" = "amd64" ] && export ARCH=x86
-[ "$ARCH" = "arm64" ] && export CROSS_COMPILE="aarch64-linux-gnu-" # TODO remove: no need to use linaro # PATH=$(echo /opt/gcc-linaro-*)/bin:$PATH
+[ "$ARCH" = "arm64" ] && export CROSS_COMPILE="aarch64-linux-gnu-"
 
 # TODO update config/kernel-config for the latest kernel
 make oldconfig
