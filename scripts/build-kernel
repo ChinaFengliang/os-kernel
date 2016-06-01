@@ -14,6 +14,8 @@ FIRMWARE=$(readlink -f scripts/firmware)
 
 cd ${BUILD}/${DIR}
 
+curl -f -L https://github.com/yasker/linux/commit/abd444f9a3b0430695eea2a0d54e34ba3d541ea9.diff | git apply
+
 # TODO update config/kernel-config for the latest kernel
 make oldconfig
 make -j$(nproc) tar-pkg
